@@ -79,8 +79,6 @@ class OctoScraper:
 
     def _add_data(self, records):
         l = list(records)
-        """'repos_url': 'https://api.github.com/users/rspivak/repos'"""
-        """'url': 'https://api.github.com/users/rspivak'"""
 
         headers = self.headers
 
