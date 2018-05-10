@@ -8,7 +8,7 @@ import pymongo
 
 
 class OctoScraper:
-    def __init__(self, language, location, auth_string=None, silent=True, wait_throttle=60):
+    def __init__(self, language="", location="", topic="", auth_string=None, silent=True, wait_throttle=60):
         self.headers = {
             'accept-encoding': "gzip, deflate, br",
             'accept-language': "en-US,en;q=0.8",
@@ -16,12 +16,12 @@ class OctoScraper:
             'connection': "keep-alive",
             'cache-control': "no-cache",
         }
-
-        self._querystring_template = {"q": "type:user language:\"{language}\" location:\"{location}\"",
+        
+        self._querystring_template = {"q": "type:user language:\"{language}\" location:\"{location}\" topic:\"{topic}\"",
                                       "page": "{page}"}
 
         self.querystring = dict(self._querystring_template)
-        self.querystring['q'] = self.querystring['q'].format(language=language, location=location)
+        self.querystring['q'] = self.querystring['q'].format(language=language, location=location, topic=topic)
 
         if auth_string is not None:
             self.set_auth(auth_string)
@@ -114,10 +114,6 @@ class OctoScraper:
 
             records = d.get('items')
 
-            print(records)
-
-            input()
-
             if add_data:
                 records = self._add_data(records)
 
@@ -190,7 +186,7 @@ if __name__ == '__main__':
     mongo_database = MONGO_DATABASE
     mongo_collection = MONGO_COLLECTION
 
-    oscr = OctoScraper('python', 'toronto', auth_string=auth_string, silent=False)
+    oscr = OctoScraper(language='Dockerfile', location='toronto', auth_string=auth_string, silent=False)
 
     results = oscr.get_accounts()
 
